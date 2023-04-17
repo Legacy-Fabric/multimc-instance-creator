@@ -1,6 +1,5 @@
 import os
 import zipfile
-import pathlib
 
 loader: str = "0.14.19"
 lwjgl3: str = "3.1.6"
@@ -43,9 +42,14 @@ class Generator:
                 t.write(self.process(f.read()))
 
         mkdir_if_not_exists("temp/patches")
-        with open("skel/patches/net.fabricmc.intermediary.json", "r") as f:
-            with open("temp/patches/net.fabricmc.intermediary.json", "w") as t:
-                t.write(self.process(f.read()))
+        if self.minecraft_version == "1.6.4" or "1.5.2" or "1.4.7" or "1.3.2":
+            with open("skel/patches/net.fabricmc.intermediary.pre-1.7.json", "r") as f:
+                with open("temp/patches/net.fabricmc.intermediary.json", "w") as t:
+                    t.write(self.process(f.read()))
+        else:
+            with open("skel/patches/net.fabricmc.intermediary.json", "r") as f:
+                with open("temp/patches/net.fabricmc.intermediary.json", "w") as t:
+                    t.write(self.process(f.read()))
 
         with open("skel/legacyfabric.png", "rb") as f:
             with open("temp/legacyfabric.png", "wb") as t:
