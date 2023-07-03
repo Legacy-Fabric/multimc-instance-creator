@@ -2,10 +2,10 @@
 import os
 import zipfile
 
-loader: str = "0.14.19"
+loader: str = "0.14.21"
 legacy_fixes: str = "legacy-fixes-1.0.0.jar"
 lwjgl3: str = "3.1.6"
-lwjgl2: str = "2.9.4-nightly-20150209"
+lwjgl2: str = "2.9.4+legacyfabric.5"
 
 
 def mkdir_if_not_exists(path: str):
@@ -44,6 +44,12 @@ class Generator:
                 t.write(self.process(f.read()))
 
         mkdir_if_not_exists("temp/patches")
+
+        if not self.lwjgl_version.startswith("3"):
+            with open("skel/patches/org.lwjgl.lwjgl.json", "r") as f:
+                with open("temp/patches/org.lwjgl.lwjgl.json", "w") as t:
+                    t.write(self.process(f.read()))
+
         if self.minecraft_version == "1.6.4" or "1.5.2" or "1.4.7" or "1.3.2":
             with open("skel/patches/net.fabricmc.intermediary.pre-1.7.json", "r") as f:
                 with open("temp/patches/net.fabricmc.intermediary.json", "w") as t:
@@ -71,6 +77,10 @@ class Generator:
             z.write("temp/patches/net.fabricmc.intermediary.json",
                     "patches/net.fabricmc.intermediary.json")
             z.write("temp/legacyfabric.png", "legacyfabric.png")
+
+            if not self.lwjgl_version.startswith("3"):
+                z.write("temp/patches/org.lwjgl.lwjgl.json",
+                    "patches/org.lwjgl.lwjgl.json")
 
             if self.minecraft_version == "1.8.9" or self.minecraft_version == "1.7.10" or self.minecraft_version == "1.6.4" or self.minecraft_version == "1.5.2" or self.minecraft_version == "1.4.7" or self.minecraft_version == "1.3.2":
                 z.write(f"temp/.minecraft/mods/{legacy_fixes}", f".minecraft/mods/{legacy_fixes}")
