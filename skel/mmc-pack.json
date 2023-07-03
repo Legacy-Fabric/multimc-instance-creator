@@ -2,7 +2,7 @@
   "components": [
     {
       "cachedName": "${lwjgl_name}",
-      "cachedVersion": "${lwjgl_version}",
+      "cachedVersion": "${lwjgl_patch}",
       "cachedVolatile": true,
       "dependencyOnly": true,
       "uid": "${lwjgl_uid}",
@@ -12,7 +12,6 @@
       "cachedName": "Minecraft",
       "cachedRequires": [
         {
-          "equals": "${lwjgl_version}",
           "suggests": "${lwjgl_version}",
           "uid": "${lwjgl_uid}"
         }

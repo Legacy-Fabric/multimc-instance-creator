@@ -5,7 +5,8 @@ import zipfile
 loader: str = "0.14.21"
 legacy_fixes: str = "legacy-fixes-1.0.0.jar"
 lwjgl3: str = "3.1.6"
-lwjgl2: str = "2.9.4+legacyfabric.5"
+lwjgl2: str = "2.9.4-nightly-20150209"
+lwjgl2_patch: str = "2.9.4+legacyfabric.5"
 
 
 def mkdir_if_not_exists(path: str):
@@ -14,16 +15,18 @@ def mkdir_if_not_exists(path: str):
 
 
 class Generator:
-    def __init__(self, loader_version: str, minecraft_version: str, lwjgl_version: str, path: str = "temp"):
+    def __init__(self, loader_version: str, minecraft_version: str, lwjgl_version: str, lwjgl_patch: str, path: str = "temp"):
         self.lwjgl_version: str = lwjgl_version
         self.minecraft_version: str = minecraft_version
         self.loader_version: str = loader_version
+        self.lwjgl_patch: str = lwjgl_patch
         self.path: str = path
 
     def process(self, subject: str) -> str:
         subject = subject.replace("${loader_version}", self.loader_version)
         subject = subject.replace("${minecraft_version}", self.minecraft_version)
         subject = subject.replace("${lwjgl_version}", self.lwjgl_version)
+        subject = subject.replace("${lwjgl_patch}", self.lwjgl_patch)
         subject = subject.replace("${lwjgl_name}",
                                   "LWJGL 3" if self.lwjgl_version.startswith(
                                       "3") else "LWJGL 2")
@@ -80,7 +83,7 @@ class Generator:
 
             if not self.lwjgl_version.startswith("3"):
                 z.write("temp/patches/org.lwjgl.lwjgl.json",
-                    "patches/org.lwjgl.lwjgl.json")
+                    "patches/org.lwjgl.json")
 
             if self.minecraft_version == "1.8.9" or self.minecraft_version == "1.7.10" or self.minecraft_version == "1.6.4" or self.minecraft_version == "1.5.2" or self.minecraft_version == "1.4.7" or self.minecraft_version == "1.3.2":
                 z.write(f"temp/.minecraft/mods/{legacy_fixes}", f".minecraft/mods/{legacy_fixes}")
@@ -115,8 +118,9 @@ print(f"target loader: {loader}")
 mkdir_if_not_exists("out")
 for version, lwjgl in versions:
     lwjgl_version = lwjgl3 if lwjgl == 3 else lwjgl2
-    print(f"generating {version} with LWJGL {lwjgl_version}...")
-    g = Generator(loader, version, lwjgl_version)
+    lwjgl_patch = lwjgl3 if lwjgl == 3 else lwjgl2_patch
+    print(f"generating {version} with LWJGL {lwjgl_patch}...")
+    g = Generator(loader, version, lwjgl_version, lwjgl_patch)
     g.prepare_skeleton()
     g.create_zip()
 
