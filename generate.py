@@ -2,7 +2,7 @@
 import os
 import zipfile
 
-loader: str = "0.14.21"
+loader: str = "0.14.22"
 legacy_fixes: str = "legacy-fixes-1.0.1.jar"
 lwjgl3: str = "3.1.6"
 lwjgl2: str = "2.9.4-nightly-20150209"
@@ -15,7 +15,8 @@ def mkdir_if_not_exists(path: str):
 
 
 class Generator:
-    def __init__(self, loader_version: str, minecraft_version: str, lwjgl_version: str, lwjgl_patch: str, path: str = "temp"):
+    def __init__(self, loader_version: str, minecraft_version: str, lwjgl_version: str, lwjgl_patch: str,
+                 path: str = "temp"):
         self.lwjgl_version: str = lwjgl_version
         self.minecraft_version: str = minecraft_version
         self.loader_version: str = loader_version
@@ -83,7 +84,7 @@ class Generator:
 
             if not self.lwjgl_version.startswith("3"):
                 z.write("temp/patches/org.lwjgl.lwjgl.json",
-                    "patches/org.lwjgl.json")
+                        "patches/org.lwjgl.json")
 
             if self.minecraft_version == "1.8.9" or self.minecraft_version == "1.7.10" or self.minecraft_version == "1.6.4" or self.minecraft_version == "1.5.2" or self.minecraft_version == "1.4.7" or self.minecraft_version == "1.3.2":
                 z.write(f"temp/.minecraft/mods/{legacy_fixes}", f".minecraft/mods/{legacy_fixes}")
@@ -123,7 +124,3 @@ for version, lwjgl in versions:
     g = Generator(loader, version, lwjgl_version, lwjgl_patch)
     g.prepare_skeleton()
     g.create_zip()
-
-# g = Generator(loader, "1.13.2", lwjgl3)
-# g.prepare_skeleton()
-# g.create_zip()
