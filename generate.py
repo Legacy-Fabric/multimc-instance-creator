@@ -2,7 +2,7 @@
 import os
 import zipfile
 
-loader: str = "0.14.22"
+loader: str = "0.14.24"
 legacy_fixes: str = "legacy-fixes-1.0.1.jar"
 lwjgl3: str = "3.1.6"
 lwjgl2: str = "2.9.4-nightly-20150209"
