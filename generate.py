@@ -71,7 +71,7 @@ class Generator:
             with open("temp/legacyfabric.png", "wb") as t:
                 t.write(f.read())
 
-        if self.minecraft_version == "1.8.9" or self.minecraft_version == "1.7.10" or self.minecraft_version == "1.6.4" or self.minecraft_version == "1.5.2" or self.minecraft_version == "1.4.7" or self.minecraft_version == "1.3.2":
+        if self.minecraft_version in ("1.8.9", "1.7.10", "1.6.4", "1.5.2", "1.4.7", "1.3.2"):
             mkdir_if_not_exists("temp/.minecraft")
             mkdir_if_not_exists("temp/.minecraft/mods")
             with open(f"skel/.minecraft/mods/{legacy_fixes}", "rb") as f:
@@ -90,7 +90,7 @@ class Generator:
                 z.write("temp/patches/org.lwjgl.lwjgl.json",
                         "patches/org.lwjgl.json")
 
-            if self.minecraft_version == "1.8.9" or self.minecraft_version == "1.7.10" or self.minecraft_version == "1.6.4" or self.minecraft_version == "1.5.2" or self.minecraft_version == "1.4.7" or self.minecraft_version == "1.3.2":
+            if self.minecraft_version in ("1.8.9", "1.7.10", "1.6.4", "1.5.2", "1.4.7", "1.3.2"):
                 z.write(f"temp/.minecraft/mods/{legacy_fixes}", f".minecraft/mods/{legacy_fixes}")
 
         self.cleanup()
