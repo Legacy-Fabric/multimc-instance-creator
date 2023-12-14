@@ -2,11 +2,11 @@
 import os
 import zipfile
 
-loader: str = "0.14.24"
+loader: str = "0.14.25"
 legacy_fixes: str = "legacy-fixes-1.0.1.jar"
 lwjgl3: str = "3.1.6"
 lwjgl2: str = "2.9.4-nightly-20150209"
-lwjgl2_patch: str = "2.9.4+legacyfabric.5"
+lwjgl2_patch: str = "2.9.4+legacyfabric.7"
 
 
 def mkdir_if_not_exists(path: str):
